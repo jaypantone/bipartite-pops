@@ -122,7 +122,6 @@ def basis_to_pop(basis: Basis) -> Poset:
         res = perm_to_chain(basis[0])
         for perm in basis[1:]:
             res = poset_intersection(res, perm_to_chain(perm))
-        print(res, basis)
         if tuple(sorted(basis)) != pop_to_basis(res):
             raise ValueError(f"Av({basis}) is not a POP class. ")
         return res
@@ -142,4 +141,7 @@ def is_pop_class(basis: Basis) -> bool:
     Returns:
         This returns True if Av(basis) is a POP class.
     """
-    return tuple(sorted(pop_to_basis(basis_to_pop(basis)))) == tuple(sorted(basis))
+    try:
+        return tuple(sorted(pop_to_basis(basis_to_pop(basis)))) == tuple(sorted(basis))
+    except ValueError:
+        return False
